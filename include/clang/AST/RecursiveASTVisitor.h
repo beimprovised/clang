@@ -2963,6 +2963,12 @@ bool RecursiveASTVisitor<Derived>::VisitOMPDeviceClause(OMPDeviceClause *C) {
 }
 
 template <typename Derived>
+bool RecursiveASTVisitor<Derived>::VisitOMPDefaultDeviceClause(OMPDefaultDeviceClause *C) {
+  TRY_TO(TraverseStmt(C->getDevice()));
+  return true;
+}
+
+template <typename Derived>
 bool RecursiveASTVisitor<Derived>::VisitOMPMapClause(OMPMapClause *C) {
   TRY_TO(VisitOMPClauseList(C));
   return true;

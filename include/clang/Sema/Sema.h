@@ -8629,6 +8629,10 @@ public:
   OMPClause *ActOnOpenMPDeviceClause(Expr *Device, SourceLocation StartLoc,
                                      SourceLocation LParenLoc,
                                      SourceLocation EndLoc);
+  /// \brief Called on well-formed 'defaultdevice' clause.
+  OMPClause *ActOnOpenMPDefaultDeviceClause(Expr *Device, SourceLocation StartLoc,
+                                     SourceLocation LParenLoc,
+                                     SourceLocation EndLoc);
   /// \brief Called on well-formed 'map' clause.
   OMPClause *
   ActOnOpenMPMapClause(OpenMPMapClauseKind MapTypeModifier,

@@ -120,6 +120,16 @@ enum OpenMPDefaultmapClauseModifier {
   OMPC_DEFAULTMAP_MODIFIER_last
 };
 
+/// \brief OpenMP mapping kind for 'device' clause.
+enum OpenMPDeviceClauseKind {
+#ifndef OPENMP_DEVICE_KIND
+#define OPENMP_DEVICE_KIND(Name) \
+  OMPC_DEVICE_##Name,
+#endif
+#include "clang/Basic/OpenMPKinds.def"
+        OMPC_DEVICE_unknown
+};
+
 /// Scheduling data for loop-based OpenMP directives.
 struct OpenMPScheduleTy final {
   OpenMPScheduleClauseKind Schedule = OMPC_SCHEDULE_unknown;

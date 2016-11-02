@@ -729,6 +729,12 @@ void OMPClausePrinter::VisitOMPDeviceClause(OMPDeviceClause *Node) {
   OS << ")";
 }
 
+void OMPClausePrinter::VisitOMPDefaultDeviceClause(OMPDefaultDeviceClause *Node) {
+  OS << "device(";
+  Node->getDevice()->printPretty(OS, nullptr, Policy, 0);
+  OS << ")";
+}
+
 void OMPClausePrinter::VisitOMPNumTeamsClause(OMPNumTeamsClause *Node) {
   OS << "num_teams(";
   Node->getNumTeams()->printPretty(OS, nullptr, Policy, 0);

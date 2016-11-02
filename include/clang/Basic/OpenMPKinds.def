@@ -99,6 +99,9 @@
 #ifndef OPENMP_DEFAULT_KIND
 #  define OPENMP_DEFAULT_KIND(Name)
 #endif
+#ifndef OPENMP_DEVICE_KIND
+#  define OPENMP_DEVICE_KIND(Name)
+#endif
 #ifndef OPENMP_PROC_BIND_KIND
 #  define OPENMP_PROC_BIND_KIND(Name)
 #endif
@@ -254,6 +257,7 @@ OPENMP_CLAUSE(capture, OMPCaptureClause)
 OPENMP_CLAUSE(seq_cst, OMPSeqCstClause)
 OPENMP_CLAUSE(depend, OMPDependClause)
 OPENMP_CLAUSE(device, OMPDeviceClause)
+OPENMP_CLAUSE(defaultdevice, OMPDefaultDeviceClause)
 OPENMP_CLAUSE(threads, OMPThreadsClause)
 OPENMP_CLAUSE(simd, OMPSIMDClause)
 OPENMP_CLAUSE(map, OMPMapClause)
@@ -336,6 +340,11 @@ OPENMP_CANCEL_CLAUSE(if)
 // Static attributes for 'default' clause.
 OPENMP_DEFAULT_KIND(none)
 OPENMP_DEFAULT_KIND(shared)
+
+// Clauses allowed for device type filter
+OPENMP_DEVICE_KIND(HOSTCPU)
+OPENMP_DEVICE_KIND(NVGPU)
+OPENMP_DEVICE_KIND(ITLMIC)
 
 // Static attributes for 'proc_bind' clause.
 OPENMP_PROC_BIND_KIND(master)
