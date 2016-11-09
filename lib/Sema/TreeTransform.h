@@ -6671,14 +6671,15 @@ namespace clang {
             E.get(), C->getLocStart(), C->getLParenLoc(), C->getLocEnd());
     }
 
-
+#ifdef REDEFINE_DEVICE
     template <typename Derived>
-    OMPClause *TreeTransform<Derived>::TransformOMPDefaultDeviceClause(OMPDefaultDeviceClause *C){
+    OMPClause *TreeTransform<Derived>::TransformOMPHybridDeviceClause(OMPHybridDeviceClause *C){
         ExprResult E = getDerived().TransformExpr(C->getDevice());
         if(E.isInvalid()) return nullptr;
         return getDerived().RebuildOMPDeviceClause(
             E.get(), C->getLocStart(), C->getLParenLoc(), C->getLocEnd());
     }
+#endif
 
     template <typename Derived>
     OMPClause *TreeTransform<Derived>::TransformOMPMapClause(OMPMapClause *C){

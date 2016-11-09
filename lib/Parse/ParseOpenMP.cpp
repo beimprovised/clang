@@ -1040,7 +1040,9 @@ OMPClause *Parser::ParseOpenMPClause(OpenMPDirectiveKind DKind, OpenMPClauseKind
         case OMPC_collapse:
         case OMPC_ordered:
         case OMPC_device:
-        case OMPC_defaultdevice:
+#ifdef REDEFINE_DEVICE
+        case OMPC_hybriddevice:
+#endif
         case OMPC_num_teams:
         case OMPC_thread_limit:
         case OMPC_priority:

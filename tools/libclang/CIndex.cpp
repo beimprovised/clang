@@ -1753,10 +1753,11 @@ namespace {
         Visitor->AddStmt(C->getDevice());
     }
 
-
-    void OMPClauseEnqueue::VisitOMPDefaultDeviceClause(const OMPDefaultDeviceClause *C){
+#ifdef REDEFINE_DEVICE
+    void OMPClauseEnqueue::VisitOMPHybridDeviceClause(const OMPHybridDeviceClause *C){
         Visitor->AddStmt(C->getDevice());
     }
+#endif
 
     void OMPClauseEnqueue::VisitOMPNumTeamsClause(const OMPNumTeamsClause *C){
         VisitOMPClauseWithPreInit(C);

@@ -150,7 +150,9 @@ unsigned clang::getOpenMPSimpleClauseType(OpenMPClauseKind Kind, StringRef Str){
         case OMPC_capture:
         case OMPC_seq_cst:
         case OMPC_device:
-        case OMPC_defaultdevice:
+#ifdef REDEFINE_DEVICE
+        case OMPC_hybriddevice:
+#endif
         case OMPC_threads:
         case OMPC_simd:
         case OMPC_num_teams:
@@ -289,7 +291,9 @@ const char *clang::getOpenMPSimpleClauseTypeName(OpenMPClauseKind Kind, unsigned
         case OMPC_capture:
         case OMPC_seq_cst:
         case OMPC_device:
-        case OMPC_defaultdevice:
+#ifdef REDEFINE_DEVICE
+        case OMPC_hybriddevice:
+#endif
         case OMPC_threads:
         case OMPC_simd:
         case OMPC_num_teams:

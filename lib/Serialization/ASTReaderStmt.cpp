@@ -1389,7 +1389,7 @@ void ASTStmtReader::VisitExprWithCleanups(ExprWithCleanups *E){
 
 void ASTStmtReader::VisitCXXDependentScopeMemberExpr(CXXDependentScopeMemberExpr *E){
     VisitExpr(E);
-    if(Record[Idx ++])							// HasTemplateKWAndArgsInfo
+    if(Record[Idx ++])													// HasTemplateKWAndArgsInfo
             ReadTemplateKWAndArgsInfo(
                 *E->getTrailingObjects<ASTTemplateKWAndArgsInfo>()
                                      , E->getTrailingObjects<TemplateArgumentLoc>()
@@ -1405,7 +1405,7 @@ void ASTStmtReader::VisitCXXDependentScopeMemberExpr(CXXDependentScopeMemberExpr
 
 void ASTStmtReader::VisitDependentScopeDeclRefExpr(DependentScopeDeclRefExpr *E){
     VisitExpr(E);
-    if(Record[Idx ++])							// HasTemplateKWAndArgsInfo
+    if(Record[Idx ++])													// HasTemplateKWAndArgsInfo
             ReadTemplateKWAndArgsInfo(
                 *E->getTrailingObjects<ASTTemplateKWAndArgsInfo>()
                                      , E->getTrailingObjects<TemplateArgumentLoc>()
@@ -1426,7 +1426,7 @@ void ASTStmtReader::VisitCXXUnresolvedConstructExpr(CXXUnresolvedConstructExpr *
 
 void ASTStmtReader::VisitOverloadExpr(OverloadExpr *E){
     VisitExpr(E);
-    if(Record[Idx ++])							// HasTemplateKWAndArgsInfo
+    if(Record[Idx ++])													// HasTemplateKWAndArgsInfo
             ReadTemplateKWAndArgsInfo(*E->getTrailingASTTemplateKWAndArgsInfo()
                                      , E->getTrailingTemplateArgumentLoc()
                                      , /*NumTemplateArgs=*/ Record[Idx ++]);
@@ -1777,9 +1777,11 @@ OMPClause *OMPClauseReader::readClause(){
         case OMPC_device:
             C = new(Context) OMPDeviceClause();
             break;
-        case OMPC_defaultdevice:
-            C = new(Context) OMPDefaultDeviceClause();
+#ifdef REDEFINE_DEVICE
+        case OMPC_hybriddevice:
+            C = new(Context) OMPHybridDeviceClause();
             break;
+#endif
 
         case OMPC_map: {
             unsigned	NumVars			= Record[Idx ++];
@@ -2149,10 +2151,12 @@ void OMPClauseReader::VisitOMPDeviceClause(OMPDeviceClause *C){
     C->setLParenLoc(Reader->ReadSourceLocation(Record, Idx));
 }
 
-void OMPClauseReader::VisitOMPDefaultDeviceClause(OMPDefaultDeviceClause *C){
+#ifdef REDEFINE_DEVICE
+void OMPClauseReader::VisitOMPHybridDeviceClause(OMPHybridDeviceClause *C){
     C->setDevice(Reader->Reader.ReadSubExpr());
     C->setLParenLoc(Reader->ReadSourceLocation(Record, Idx));
 }
+#endif
 
 void OMPClauseReader::VisitOMPMapClause(OMPMapClause *C){
     C->setLParenLoc(Reader->ReadSourceLocation(Record, Idx));
@@ -2985,7 +2989,7 @@ Stmt *ASTReader::ReadStmtFromStream(ModuleFile &F){
 
                 assert(Idx == 0);
                 NestedNameSpecifierLoc QualifierLoc;
-                if(Record[Idx ++])										// HasQualifier.
+                if(Record[Idx ++])																			// HasQualifier.
                         QualifierLoc = ReadNestedNameSpecifierLoc(F, Record, Idx);
                 SourceLocation				TemplateKWLoc;
                 TemplateArgumentListInfo	ArgInfo;

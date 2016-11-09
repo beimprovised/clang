@@ -8674,9 +8674,12 @@ OMPClause *Sema::ActOnOpenMPSingleExprClause(OpenMPClauseKind Kind, Expr *Expr, 
         case OMPC_device:
             Res = ActOnOpenMPDeviceClause(Expr, StartLoc, LParenLoc, EndLoc);
             break;
-        case OMPC_defaultdevice:
-            Res = ActOnOpenMPDefaultDeviceClause(Expr, StartLoc, LParenLoc, EndLoc);
+#ifdef REDEFINE_DEVICE
+        case OMPC_hybriddevice:
+
+            Res = ActOnOpenMPHybridDeviceClause(Expr, StartLoc, LParenLoc, EndLoc);
             break;
+#endif
         case OMPC_num_teams:
             Res = ActOnOpenMPNumTeamsClause(Expr, StartLoc, LParenLoc, EndLoc);
             break;
@@ -8994,7 +8997,9 @@ OMPClause *Sema::ActOnOpenMPSimpleClause(
         case OMPC_seq_cst:
         case OMPC_depend:
         case OMPC_device:
-        case OMPC_defaultdevice:
+#ifdef REDEFINE_DEVICE
+        case OMPC_hybriddevice:
+#endif
         case OMPC_threads:
         case OMPC_simd:
         case OMPC_map:
@@ -9137,7 +9142,9 @@ OMPClause *Sema::ActOnOpenMPSingleExprWithArgClause(
         case OMPC_seq_cst:
         case OMPC_depend:
         case OMPC_device:
-        case OMPC_defaultdevice:
+#ifdef REDEFINE_DEVICE
+        case OMPC_hybriddevice:
+#endif
         case OMPC_threads:
         case OMPC_simd:
         case OMPC_map:
@@ -9316,7 +9323,9 @@ OMPClause *Sema::ActOnOpenMPClause(OpenMPClauseKind Kind, SourceLocation StartLo
         case OMPC_flush:
         case OMPC_depend:
         case OMPC_device:
-        case OMPC_defaultdevice:
+#ifdef REDEFINE_DEVICE
+        case OMPC_hybriddevice:
+#endif
         case OMPC_map:
         case OMPC_num_teams:
         case OMPC_thread_limit:
@@ -9460,7 +9469,9 @@ OMPClause *Sema::ActOnOpenMPVarListClause(
         case OMPC_capture:
         case OMPC_seq_cst:
         case OMPC_device:
-        case OMPC_defaultdevice:
+#ifdef REDEFINE_DEVICE
+        case OMPC_hybriddevice:
+#endif
         case OMPC_threads:
         case OMPC_simd:
         case OMPC_num_teams:
@@ -11427,14 +11438,16 @@ OMPClause *Sema::ActOnOpenMPDeviceClause(Expr *Device, SourceLocation StartLoc, 
     return new(Context) OMPDeviceClause(ValExpr, StartLoc, LParenLoc, EndLoc);
 }
 
-OMPClause *Sema::ActOnOpenMPDefaultDeviceClause(Expr *Device, SourceLocation StartLoc, SourceLocation LParenLoc, SourceLocation EndLoc){
+#ifdef REDEFINE_DEVICE
+OMPClause *Sema::ActOnOpenMPHybridDeviceClause(Expr *Device, SourceLocation StartLoc, SourceLocation LParenLoc, SourceLocation EndLoc){
     Expr *ValExpr = Device;
     // OpenMP [2.9.1, Restrictions]
     // The device expression must evaluate to a non-negative integer value.
-    if(! IsNonNegativeIntegerValue(ValExpr, *this, OMPC_defaultdevice
+    if(! IsNonNegativeIntegerValue(ValExpr, *this, OMPC_hybriddevice
                                   ,	/*StrictlyPositive=*/ false)) return nullptr;
-    return new(Context) OMPDefaultDeviceClause(ValExpr, StartLoc, LParenLoc, EndLoc);
+    return new(Context) OMPHybridDeviceClause(ValExpr, StartLoc, LParenLoc, EndLoc);
 }
+#endif
 
 static bool IsCXXRecordForMappable(Sema &SemaRef, SourceLocation Loc, DSAStackTy *Stack, CXXRecordDecl *RD){
     // If the user requested the compiler to ignore unmappable types, just return

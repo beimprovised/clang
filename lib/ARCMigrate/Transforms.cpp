@@ -235,7 +235,7 @@ namespace {
                 return true;
             }
 
-            bool VisitOMPDefaultDeviceClause(OMPDefaultDeviceClause *S){return true;}
+//            bool VisitOMPHybridDeviceClause(HOMPDeviceClause *S){return true;}
 
         private:
             void mark(Stmt *S){

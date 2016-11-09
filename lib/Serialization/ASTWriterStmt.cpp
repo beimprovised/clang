@@ -1885,10 +1885,12 @@ void OMPClauseWriter::VisitOMPDeviceClause(OMPDeviceClause *C){
     Record.AddSourceLocation(C->getLParenLoc());
 }
 
-void OMPClauseWriter::VisitOMPDefaultDeviceClause(OMPDefaultDeviceClause *C){
+#ifdef REDEFINE_DEVICE
+void OMPClauseWriter::VisitOMPHybridDeviceClause(OMPHybridDeviceClause *C){
     Record.AddStmt(C->getDevice());
     Record.AddSourceLocation(C->getLParenLoc());
 }
+#endif
 
 void OMPClauseWriter::VisitOMPMapClause(OMPMapClause *C){
     Record.push_back(C->varlist_size());

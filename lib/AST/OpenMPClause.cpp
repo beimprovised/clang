@@ -80,7 +80,9 @@ const OMPClauseWithPreInit *OMPClauseWithPreInit::get(const OMPClause *C){
         case OMPC_seq_cst:
         case OMPC_depend:
         case OMPC_device:
-        case OMPC_defaultdevice:
+#ifdef REDEFINE_DEVICE
+        case OMPC_hybriddevice:
+#endif
         case OMPC_threads:
         case OMPC_simd:
         case OMPC_map:
@@ -143,7 +145,9 @@ const OMPClauseWithPostUpdate *OMPClauseWithPostUpdate::get(const OMPClause *C){
         case OMPC_seq_cst:
         case OMPC_depend:
         case OMPC_device:
-        case OMPC_defaultdevice:
+#ifdef REDEFINE_DEVICE
+        case OMPC_hybriddevice:
+#endif
         case OMPC_threads:
         case OMPC_simd:
         case OMPC_map:

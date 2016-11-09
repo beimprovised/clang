@@ -257,7 +257,9 @@ OPENMP_CLAUSE(capture, OMPCaptureClause)
 OPENMP_CLAUSE(seq_cst, OMPSeqCstClause)
 OPENMP_CLAUSE(depend, OMPDependClause)
 OPENMP_CLAUSE(device, OMPDeviceClause)
-OPENMP_CLAUSE(defaultdevice, OMPDefaultDeviceClause)
+#ifdef REDEFINE_DEVICE
+OPENMP_CLAUSE(hybriddevice, OMPHybridDeviceClause)
+#endif
 OPENMP_CLAUSE(threads, OMPThreadsClause)
 OPENMP_CLAUSE(simd, OMPSIMDClause)
 OPENMP_CLAUSE(map, OMPMapClause)

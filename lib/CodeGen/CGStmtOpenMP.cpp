@@ -3494,7 +3494,9 @@ static void EmitOMPAtomicExpr(CodeGenFunction &CGF, OpenMPClauseKind Kind, bool 
         case OMPC_depend:
         case OMPC_mergeable:
         case OMPC_device:
-        case OMPC_defaultdevice:
+#ifdef REDEFINE_DEVICE
+        case OMPC_hybriddevice:
+#endif
         case OMPC_threads:
         case OMPC_simd:
         case OMPC_map:

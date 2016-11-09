@@ -444,9 +444,11 @@ namespace {
         if(C->getDevice()) Profiler->VisitStmt(C->getDevice());
     }
 
-    void OMPClauseProfiler::VisitOMPDefaultDeviceClause(const OMPDefaultDeviceClause *C){
+#ifdef REDEFINE_DEVICE
+    void OMPClauseProfiler::VisitOMPHybridDeviceClause(const OMPHybridDeviceClause *C){
         if(C->getDevice()) Profiler->VisitStmt(C->getDevice());
     }
+#endif
 
     void OMPClauseProfiler::VisitOMPMapClause(const OMPMapClause *C){
         VisitOMPClauseList(C);
